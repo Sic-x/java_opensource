@@ -1,0 +1,92 @@
+<!DOCTYPE html >
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>文件上传下载</title>
+		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="css/content.css" />
+	</head>
+
+	<body>
+		<div>
+			<div id="head">
+				<marquee>上新上新，宝贝更新，淘淘宝贝，尽在双11。</marquee>
+				<table border="1" width="100%" cellspacing="0">
+					<tr>
+						<th><img alt="" src="img/one/1.jpg"></th>
+						<th><img alt="" src="img/one/2.jpg"></th>
+						<th><img alt="" src="img/one/3.jpg"></th>
+						<th><img alt="" src="img/one/4.jpg"></th>
+						<th><img alt="" src="img/one/5.jpg"><br /> 欢迎XX登录&emsp;
+							<a href="index.html">注销登录</a>
+						</th>
+					</tr>
+				</table>
+			</div>
+			<div class="clfloat" id="left">
+				<a href="user.html">
+					<div >用户管理</div>
+				</a>
+				<a href="category.html">
+					<div>商品分类管理</div>
+				</a>
+				<a href="#">
+					<div>商品管理</div>
+				</a>
+				<a href="file.html">
+					<div class="active">文件上传下载</div>
+				</a>
+				<a href="cart.html">
+					<div>购物车功能</div>
+				</a>
+			</div>
+			<div class="clfloat" id="right">
+				<div id="nav">
+					首页>>>>文件上传下载>>>>新增数据
+				</div>
+				<form action="file.html">
+					<table border="1" cellspacing="0" width="100%">
+						<tr>
+							<th>商品名称</th>
+							<th><input type="text" name=""></th>
+						</tr>
+						<tr>
+							<th>商品单价</th>
+							<th><input type="text" name=""></th>
+						</tr>
+						<tr>
+							<th>商品简介</th>
+							<th>
+								<textarea name=""></textarea>
+							</th>
+						</tr>
+						<tr>
+							<th>上传图片</th>
+							<th>
+								<input type="file" name="" />
+							</th>
+						</tr>
+						<tr>
+							<th>添加信息</th>
+							<th>
+								<span class="info">添加失败</span>
+							</th>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<input  type="checkbox"> 添加完成之后，是否跳转主页
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2">
+								<input  type="submit" value="新增数据">
+							</th>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</body>
+
+</html>

@@ -1,0 +1,19 @@
+.info {
+	color: red;
+}
+/**
+			 * 添加页面的共有信息
+			 */
+
+input,select,textarea {
+	width: 80%;
+	resize: none;
+}
+
+input[type='checkbox'] {
+	width: 2%;
+}
+
+input[type='submit'] {
+	width: 20%;
+}

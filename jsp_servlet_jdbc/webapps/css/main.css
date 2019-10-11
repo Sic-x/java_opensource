@@ -1,0 +1,88 @@
+@CHARSET "UTF-8";
+html,
+form,
+body,
+div {
+	width: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-family: '宋体';
+	background: #FFF;
+}
+
+div {
+	border: 1px solid black;
+	text-align: center;
+}
+
+
+/*
+			 * 导航
+			 */
+
+.clfloat {
+	float: left;
+}
+
+#left {
+	width: 14%;
+}
+
+#right {
+	width: 85%;
+}
+
+
+/*
+			 * 选中
+			 */
+
+.active {
+	background-color: green;
+}
+
+
+/*
+			 * 清除
+			 */
+
+.clear {
+	width: 0px;
+	height: 0px;
+	border: 0px;
+	clear: both;
+}
+/**
+			 * a标签
+			 */
+
+a {
+	text-decoration: none;
+}
+
+a:link {
+	color: blue;
+}
+
+a:visited {
+	color: blue;
+}
+
+
+/*
+			 * 主页面内容
+			 */
+
+#nav {
+	text-align: left;
+}
+
+marquee{
+	color:red;
+	font-weight: bold;
+	font-size: 35px;
+}

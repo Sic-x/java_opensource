@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+		<title>源码物流校招</title>
+		<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+		<!--引入bootstrap样式文档-->
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	</head>
+
+	<body>
+		<!--导航条-->
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<!-- 导航上Logo和目录显示 -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#index-navbar" aria-expanded="false">
+       						<span class="sr-only">导航目录</span>
+        					<span class="icon-bar"></span>
+        					<span class="icon-bar"></span>
+        					<span class="icon-bar"></span>
+      				</button>
+					<a class="navbar-brand" href="javascript:void(0);">源码物流招聘网后台</a>
+				</div>
+
+				<!-- 导航上其他按钮-->
+				<div class="collapse navbar-collapse navbar-right" id="index-navbar">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-user" aria-hidden="true"></span> 管理员
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">注销登陆</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		<div class="container-fluid" style="margin-top: 60px;">
+			<div class="row">
+				<!-- 创建菜单树 -->
+				<div class="col-md-2 col-sm-4" style="padding: 0px; position: fixed;top: 60px;left: 0px;">
+					<ul id="main-nav" class="nav nav-pills nav-stacked" style="">
+						<li>
+							<a href="#" target="mainContent">
+								轮播管理
+							</a>
+						</li>
+						<li>
+							<a href="jobs.jsp" target="mainContent">
+								职位管理
+							</a>
+						</li>
+	
+						<li>
+							<a href="#systemSetting" class="nav-header collapsed" data-toggle="collapse">
+								<span class="glyphicon glyphicon-cog">系统设置</span>
+								<span class="pull-right glyphicon glyphicon-chevron-down"></span>
+							</a>
+							<ul id="systemSetting" class="nav nav-list collapse secondmenu">
+								<li>
+									<a href="javascript:void(0);" onclick="menuClick('')"><span class="glyphicon glyphicon-user"></span>用户管理</a>
+								</li>
+								<li>
+									<a href="javascript:void(0);" onclick="menuClick('')"><span class="glyphicon glyphicon-th-list"></span>bbb</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-10 col-md-offset-2">
+					<!-- 内容展示页 -->
+					<div class="main_page">
+						<iframe scrolling="no" id="mainContent" name="mainContent" src="https://www.jd.com" frameborder="0" src="" style="min-height:600px;width:100%;height:100%;"></iframe>
+					</div>
+				</div>
+				<!-- /.main-content -->
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	/*	var menuClick = function(menuUrl) {
+			$("#mainContent").attr('src', menuUrl);
+		};*/
+		// 计算页面的实际高度，iframe自适应会用到
+		function calcPageHeight(doc) {
+			var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight);
+			var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+			var height = Math.max(cHeight, sHeight);
+			return height;
+		}
+		//根据ID获取iframe对象
+		var ifr = document.getElementById('mainContent');
+		ifr.onload = function() {
+			//解决打开高度太高的页面后再打开高度较小页面滚动条不收缩
+			ifr.style.height = '0px';
+			var iDoc = ifr.contentDocument || ifr.document;
+			var height = calcPageHeight(iDoc);
+			if(height < 850) {
+				height = 850;
+			}
+			ifr.style.height = height + 'px';
+		}
+	</script>
+</html>
