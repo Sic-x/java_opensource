@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/_0704_02_jap01/_0704_02_jap01.iml" filepath="$PROJECT_DIR$/_0704_02_jap01/_0704_02_jap01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_0704_02_jpa02/_0704_02_jpa02.iml" filepath="$PROJECT_DIR$/_0704_02_jpa02/_0704_02_jpa02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/_2019_09_24_jpa01_crud.iml" filepath="$PROJECT_DIR$/_2019_09_24_jpa01_crud.iml" />
+    </modules>
+  </component>
+</project>

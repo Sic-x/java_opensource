@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <!--持久化单元-->
+    <persistence-unit name="jpa01">
+        <properties>
+            <!--
+            #hibernate.dialect org.hibernate.dialect.MySQLDialect
+            #hibernate.dialect org.hibernate.dialect.MySQLInnoDBDialect
+            #hibernate.dialect org.hibernate.dialect.MySQLMyISAMDialect
+            #hibernate.connection.driver_class com.mysql.jdbc.Driver
+            #hibernate.connection.url jdbc:mysql:///test
+            #hibernate.connection.username gavin
+            #hibernate.connection.password
+            -->
+            <!--这五个必填-->
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"></property>
+            <property name="hibernate.connection.url" value="jdbc:mysql:///2019_9_24_jpa"></property>
+            <property name="hibernate.connection.username" value="root"></property>
+            <property name="hibernate.connection.password" value="123456"></property>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"></property>
+
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+
+
+        </properties>
+        
+    </persistence-unit>
+</persistence>
