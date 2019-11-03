@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--定义一个外部bean-->
+    <bean id="otherBean" class="cn.itsource._03_di.OtherBean">
+    </bean>
+
+    <bean id="mybean" class="cn.itsource._03_di.MyBean">
+        <property name="id" value="1"/>
+        <property name="name" value="勇勇"/>
+        <property name="sex" value="true"/>
+        <property name="salary" value="10000"/>
+        <!--集合属性-->
+        <!-- List<String> list:有顺序，可重复-->
+        <property name="list">
+            <list>
+                <value>l123</value>
+                <value>l456</value>
+                <value>l678</value>
+            </list>
+        </property>
+        <!--Set<String> set:无序，不可重复-->
+        <property name="set">
+            <set>
+                <value>s123</value>
+                <value>s456</value>
+                <value>s678</value>
+            </set>
+        </property>
+        <!-- List<OtherBean> otherBeanList-->
+        <property name="otherBeanList">
+            <list>
+                <ref bean="otherBean"/>
+                <ref bean="otherBean"/>
+                <ref bean="otherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+            </list>
+        </property>
+        <!-- List<OtherBean> otherBeanSet-->
+        <property name="otherBeanSet">
+            <set>
+                <ref bean="otherBean"/>
+                <ref bean="otherBean"/>
+                <ref bean="otherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+                <bean class="cn.itsource._03_di.OtherBean"/>
+            </set>
+        </property>
+
+        <!--注入数组让数据:标准写法-->
+        <!--
+        <property name="arrays">
+            <array>
+                <value>123</value>
+                <value>456</value>
+                <value>789</value>
+            </array>
+        </property>
+        -->
+        <!--注入数组让数据:简写形式(把每个数组使用逗号隔开)-->
+        <property name="arrays" value="a123,a456,a789" />
+
+        <!--map-->
+        <property name="map">
+            <map>
+                <entry key="1" value-ref="otherBean"></entry>
+                <entry key="2" value-ref="otherBean"></entry>
+                <entry key="3" value-ref="otherBean"></entry>
+            </map>
+
+        </property>
+
+
+        <!--proerty对象-->
+        <!--标准写法:Properties props1(支持中文)-->
+        <property name="props1">
+            <props>
+                <prop key="勇勇">21</prop>
+                <prop key="明明">69</prop>
+            </props>
+        </property>
+        <!--简写形式:Properties props2(不支持中文)-->
+        <!--键值对不要有空格-->
+        <property name="props2">
+            <value>
+                yy=21
+                mm=69
+            </value>
+        </property>
+
+    </bean>
+
+
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--new 对象-->
+    <bean id="myBean" class="cn.itsource._01review.MyBean">
+
+    </bean>
+    <bean id="otherBean" class="cn.itsource._02_constructor.OtherBean"/>
+    <bean id="myBean2" class="cn.itsource._02_constructor.MyBean">
+        <constructor-arg index="0" value="勇勇"/>
+        <constructor-arg index="1" value="21"/>
+        <constructor-arg ref="otherBean"/>
+    </bean>
+</beans>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--FactoryBean方案用于Spring和其他框架的集成，让Spring去管理它的关键对象-->
+    <!--创建自己不能创建的框架【关键对象】-->
+    <!--
+        1. 配置了Bean Spring就会管理生成EntityManagerFactoryBean对象
+        2.判断是不是FactoryBean对象实现了接口方法
+        3.执行实现方法,在创建实现方法返回的Bean对象 getObjectType()
+        4.在测试就可以根据返回的Bean对象自动注入EntityManagerFactory对象 getObject()
+        结论:只要是Spring管理的对象实现了FactoryBean接口,肯定会在getObject()方法中创建另一个该对象管理的Bean对象
+    -->
+    <bean id="entityManagerFactory" class="cn.itsource._07_bean_create._02_factory.EntityManagerFactoryBean"></bean>
+</beans>

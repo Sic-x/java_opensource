@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+
+">
+
+    <!--
+        3点: 何时,何地,做什么事
+            何时:在前面还是后面
+            何地:哪一个类对应的哪一个方法
+            做什么事:做什么增强(通知)的功能
+            在UserServiceImpl里面的方法的前面加上 开启事务的功能
+    -->
+
+    <!--配置对应的bean对象-->
+    <bean id="service" class="cn.itsource._05_xmlaop.service.impl.UserServiceImpl"></bean>
+    <!--配置事务管理器-->
+    <bean id="txManager" class="cn.itsource._05_xmlaop.utils.TXManager"></bean>
+<!--
+    进行AOP的配置
+    <aop:config>
+
+        pointcut切点
+            id:为切点命名(方便之后调用)
+            expression:表达式(就是去找方法)
+                *:任意返回值
+                cn.itsource._06_xmlaop.service:对应的包
+                I*Service:对应的类(以I开头,以Service结尾)
+                *:所有方法
+                (..):任意参数
+
+        <aop:pointcut id="_06_pointcut" expression="execution(* cn.itsource._05_xmlaop.service.I*Service.*(..))"></aop:pointcut>
+        <aop:aspect ref="txManager">
+            前置通知
+            <aop:before method="begin" pointcut-ref="_06_pointcut"/>
+            后置通知
+            <aop:after method="commit" pointcut-ref="_06_pointcut"/>
+            异常通知
+            <aop:after-throwing method="rollback" pointcut-ref="_06_pointcut" throwing="e"/>
+            最终通知
+            <aop:after method="close" pointcut-ref="_06_pointcut"/>
+        </aop:aspect>
+    </aop:config>
+-->
+
+   <!--环绕-->
+   <aop:config>
+        <aop:pointcut id="_06_pointcut" expression="execution(* cn.itsource._05_xmlaop.service.I*Service.*(..))"></aop:pointcut>
+        <aop:aspect ref="txManager">
+            <aop:around method="around" pointcut-ref="_06_pointcut"></aop:around>
+        </aop:aspect>
+    </aop:config>
+
+</beans>
