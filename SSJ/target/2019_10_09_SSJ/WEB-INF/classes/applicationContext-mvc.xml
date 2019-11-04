@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+">
+
+    <!-- 1.扫描controller包路径-->
+    <context:component-scan base-package="cn.itsource.controller"/>
+
+    <!--2.开启SpringMVC的自带注解支持-->
+    <mvc:annotation-driven/>
+    <!--
+        3.静态资源放行，
+        保证RESTful风格的设计，使SpringMVC不拦截图片等资源
+    -->
+    <!--
+        由于web.xml的配置对url的拦截配置的是"/",占用了默认的静态资源放行,所以需要再单独配置一个
+    -->
+    <mvc:default-servlet-handler/>
+    <!--
+        4.配置视图解析器给响应添加前缀和后缀
+        注意,返回json必须在该方法上添加@ResponseBody
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--加前缀-->
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <!--加后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--文件上传解析器-->
+    <!--之后项目添加-->
+</beans>
