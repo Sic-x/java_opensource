@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa  http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+
+">
+
+
+    <!--配置顺序
+        1. db.properties
+        2. dataSource 配置数据源 连接池 dbcp 常用数据库之一
+        3. EntityManagerFactory
+        4. dao service
+        5. 事务
+        6. action
+        7. easyUI
+
+    -->
+    <!--不进行业务层包扫描在使用自动注入该类会报错-->
+    <!--
+        Could not autowire. No beans of 'IEmployeeDao' type found.
+        Checks autowiring problems in a bean class.
+    -->
+
+    <!--扫描service层的类-->
+    <context:component-scan base-package="com.xmh.aisell.service" />
+
+    <!--读取配置文件,必须要加上classpath-->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+
+    <!--2.通过db.properties文件配置dbcp连接池-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <!--配置文件中的键值对-->
+        <!--为了不与其他配置文件冲突前加jdbc-->
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!--maxActive: 最大连接数量 -->
+        <property name="maxActive" value="150" />
+        <!--minIdle: 最小空闲连接 -->
+        <property name="minIdle" value="5" />
+        <!--maxIdle: 最大空闲连接 -->
+        <property name="maxIdle" value="20" />
+        <!--initialSize: 初始化连接 -->
+        <property name="initialSize" value="30" />
+        <!-- 用来配置数据库断开后自动连接的 -->
+        <!-- 连接被泄露时是否打印 -->
+        <property name="logAbandoned" value="true" />
+        <!--removeAbandoned: 是否自动回收超时连接 -->
+        <property name="removeAbandoned" value="true" />
+        <!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
+        <property name="removeAbandonedTimeout" value="10" />
+        <!--maxWait: 超时等待时间以毫秒为单位 1000等于60秒 -->
+        <property name="maxWait" value="1000" />
+        <!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. -->
+        <property name="timeBetweenEvictionRunsMillis" value="10000" />
+        <!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->
+        <property name="numTestsPerEvictionRun" value="10" />
+        <!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
+        <property name="minEvictableIdleTimeMillis" value="10000" />
+        <property name="validationQuery" value="SELECT NOW() FROM DUAL" />
+
+    </bean>
+
+    <!--
+        3.配置EntityManagerFactory对象
+            基本配置由Spring创建对象(四个数据库连接参数,建表策略,数据库方言,是否显示SQL语句)
+            如果运行测试创建了实体类的表,就代表对象创建成功
+            alt+insert JPA LocalContainerEntityManagerFactoryBean
+    -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--必须配置包扫描才能开启对JPA的注解的支持-->
+        <property name="packagesToScan" value="com.xmh.aisell"/>
+        <!--声明完成JPA规范的框架-->
+        <!--配置适配器(hibernate)-->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <!--数据库方言-->
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+                <!--建表策略-->
+                <!--
+                    true=update false=none
+                -->
+                <property name="generateDdl" value="false"/>
+                <!--是否显示SQL语句-->
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--如果不添加事务进行CRUD方法不能执行成功会报错-->
+    <!--
+        1. 添加事务管理器
+        2. 开启注解版事物的支持
+    -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven/>
+
+    <!--让SpringDataJpa去扫描持久层repository-->
+    <jpa:repositories base-package="com.xmh.aisell.repository" transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
+
+    <!--引入shiro的配置-->
+    <import resource="classpath:applicationContext-shiro.xml" />
+</beans>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+
+">
+
+    <!-- 1.扫描controller包路径-->
+    <context:component-scan base-package="com.xmh.aisell.web"/>
+    <context:component-scan base-package="cn.afterturn.easypoi.view"/>
+    <context:component-scan base-package="com.xmh.aisell.common"/>
+
+    <!--2.开启SpringMVC的自带注解支持-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json; charset=UTF-8</value>
+                        <value>application/x-www-form-urlencoded; charset=UTF-8</value>
+                    </list>
+                </property>
+                <!-- No serializer:配置 objectMapper 为我们自定义扩展后的 CustomMapper,解决了返回对象有关系对象的报错问题 -->
+                <property name="objectMapper">
+                    <bean class="com.xmh.aisell.common.CustomMapper"></bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!--
+        3.静态资源放行，
+        保证RESTful风格的设计，使SpringMVC不拦截图片等资源
+    -->
+    <!--
+        由于web.xml的配置对url的拦截配置的是"/",占用了默认的静态资源放行,所以需要再单独配置一个
+    -->
+    <mvc:default-servlet-handler/>
+    <!--
+        4.配置视图解析器给响应添加前缀和后缀
+        注意,返回json必须在该方法上添加@ResponseBody
+    -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--加前缀-->
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <!--加后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--配置BeanName的视图解析器-->
+    <!--需设置优先级以防冲突 p:order="0" -->
+    <!--p是伪属性-->
+    <!--
+        相当于
+        <bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+            <property name="order" value="0" >
+        </bean>
+
+    -->
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+
+    <!--5.文件上传解析器-->
+    <!--上传解析器的名字ID必须是multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" >
+            <value>10485760</value>
+        </property>
+    </bean>
+
+
+</beans>

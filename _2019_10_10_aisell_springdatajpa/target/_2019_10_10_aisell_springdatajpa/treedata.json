@@ -1,0 +1,37 @@
+[{
+  "id": 1,
+  "text": "系统管理",
+  "state": "open",
+  "children": [{
+    "id": 12,
+    "text": "部门管理",
+    "iconCls":"icon-lock",
+    "url":""
+  },{
+    "id": 11,
+    "text": "员工管理",
+    "iconCls":"icon-man",
+    "url":"/employee/employeeindex"
+  }]
+},{
+  "id": 1,
+  "text": "基本信息",
+  "state": "open",
+  "children": [{
+    "id": 11,
+    "text": "菜单管理",
+    "iconCls":"icon-man",
+    "url":"/user.action"
+  },{
+    "id": 12,
+    "text": "角色管理",
+    "iconCls":"icon-man",
+    "url":"/customer/index"
+  },{
+    "id": 12,
+    "text": "资源管理",
+    "iconCls":"icon-man",
+    "url":"/06_panel.jsp"
+  }
+  ]
+}]

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="_2019_10_10_aisell_springdatajpa:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="_2019_10_10_aisell_springdatajpa.war">
+      <element id="artifact" artifact-name="_2019_10_10_aisell_springdatajpa:war exploded" />
+    </root>
+  </artifact>
+</component>
