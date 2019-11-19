@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 获取sessionid-->
+    <bean id="sessionManager" class="com.xmh.crm.shiro.util.CrmSessionManager">
+    </bean>
+
+    <!--shiro的核心对象-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--配置realm-->
+        <property name="realm" ref="authRealm"/>
+        <property name="sessionManager" ref="sessionManager"></property>
+    </bean>
+
+    <!--Realms-->
+    <bean id="authRealm" class="com.xmh.crm.shiro.realm.AuthenRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"/>
+                <property name="hashIterations" value="10"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 配置自定义认证过滤器 放行options请求 -->
+    <bean id="myAuthc" class="com.xmh.crm.shiro.util.MyAuthenticationFilter"></bean>
+
+    <!--shiro的过滤器配置-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/s/login"/>
+        <property name="successUrl" value="/s/index"/>
+        <property name="unauthorizedUrl" value="/s/unauthorized"/>
+
+        <property name="filters">
+            <map>
+                <entry key="myAuthc" value-ref="myAuthc"></entry>
+            </map>
+        </property>
+        <!-- 过滤器链-->
+        <property name="filterChainDefinitions">
+            <value>
+                /upload/* = anon
+                /employee/checkName=anon
+                /login = anon
+                /file/* = anon
+                /register =anon
+                /** = myAuthc
+            </value>
+        </property>
+    </bean>
+
+
+</beans>

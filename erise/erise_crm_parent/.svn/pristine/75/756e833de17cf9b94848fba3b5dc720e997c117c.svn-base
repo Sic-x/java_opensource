@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.department.DepartmentMapper">
+
+    <!--void save(T t);-->
+    <insert id="save" parameterType="Department">
+        insert into  t_department(name) VALUES(#{name})
+    </insert>
+    <!--void remove(Serializable id);-->
+    <delete id="remove" parameterType="long">
+        delete from t_department where id = #{id }
+    </delete>
+    <!--void update(T t);-->
+    <update id="update" parameterType="Department">
+        update t_department set name = #{name} where id = #{id}
+    </update>
+    <!--T findOne(Serializable id);-->
+    <select id="findOne" parameterType="long" resultType="Department">
+        select  * from t_department where id = #{id}
+    </select>
+
+    <select id="findAll" resultType="Department">
+        select * from t_department
+    </select>
+
+    <!--分页处理-->
+    <!--
+   把第一个and变成where
+   keywords作用于sn和name字段
+-->
+    <sql id="whereSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and name like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!--要想做分页就要实现两条sql-->
+    <!--Long querryCount(BaseQuery query);-->
+    <select id="querryCount" parameterType="DepartmentQuery" resultType="long">
+        select count(*) from t_department
+        <include refid="whereSql"/>
+    </select>
+    <!--List<T> queryData(BaseQuery query);-->
+    <select id="queryData" parameterType="DepartmentQuery" resultType="Department">
+        select * from t_department
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,71 @@
+package com.xmh.crm.web.controller.resources;
+
+
+
+import com.xmh.crm.domain.resources.Resources;
+import com.xmh.crm.service.resources.IResourcesService;
+import com.xmh.util.AjaxResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@Controller
+@RequestMapping("/resources")
+@CrossOrigin
+public class ResourcesController {
+
+    @Autowired
+    private IResourcesService resourcesService;
+
+    /**
+     *  restful 风格 -- http的风格（get/post）
+     *
+     *   put -- 新增
+     *   post -- 修改
+     *   delete -- 删除
+     *   get --查询
+     *   patch --查询
+     *
+     *  (1)查询所有
+     */
+
+    @RequestMapping(method = RequestMethod.PATCH)
+    @ResponseBody
+    public List<Resources> findAll(){
+        return resourcesService.findAll();
+    }
+
+    //  get departement/12 查询一条
+    @RequestMapping(value = "{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public Resources findOne(@PathVariable("id") Long id){
+        return resourcesService.findOne(id);
+    }
+
+    //新增  {"id":1,"name":"xxxx"}
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
+    public AjaxResult save(@RequestBody  Resources resources){
+        resourcesService.save(resources);
+        return new AjaxResult();
+    }
+
+    //修改  {"id":1,"name":"xxxx"}
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult update(@RequestBody Resources resources){
+        resourcesService.update(resources);
+        return new AjaxResult();
+    }
+
+    //删除 {"id":1,"name":"xxxx"}
+    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public AjaxResult remove(@PathVariable("id") Long id){
+        resourcesService.remove(id);
+        return new AjaxResult();
+    }
+}

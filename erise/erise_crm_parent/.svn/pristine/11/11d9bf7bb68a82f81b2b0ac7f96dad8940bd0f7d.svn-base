@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.role.RoleMapper">
+    <!--添加一条员工信息-->
+    <insert id="save" parameterType="Role">
+        insert into t_role (sn,name) values (#{sn},#{name})
+    </insert>
+    <!--修改一条员工信息-->
+    <update id="update" parameterType="Role">
+        update t_role  set sn=#{sn},name=#{name},permission_id=#{permission_id} where id = #{id}
+    </update>
+    <!--删除一条员工信息-->
+    <delete id="remove" parameterType="long">
+        delete from t_role where id = #{id}
+    </delete>
+    <!--查询所有员工信息-->
+    <select id="findAll" resultMap="permissionMap">
+        select a.id,a.sn,a.`name`,b.id,b.name as bname ,b.resource
+        from t_role a left join t_permission b on a.permission_id = b.id
+    </select>
+    <!--查询一条员工信息-->
+    <select id="findOne" parameterType="long" resultMap="permissionMap">
+        select a.id,a.sn,a.`name`,b.id,b.name as bname ,b.resource from t_role a inner join t_permission b on a.permission_id = b.id
+        where a.id = #{id}
+    </select>
+    <resultMap id="permissionMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"></result>
+        <collection property="permissionList"  ofType="Permission">
+            <id column="id" property="id"/>
+            <result column="bname" property="name"/>
+            <result column="resource" property="resource"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,15 @@
+package com.xmh.basic.mapper;
+
+import java.util.List;
+
+public interface BaseMapper<T> {
+    List<T> findAll();
+
+    T findOne(Long id);
+
+    void save(T t);
+
+    void update(T t);
+
+    void remove(Long id);
+}

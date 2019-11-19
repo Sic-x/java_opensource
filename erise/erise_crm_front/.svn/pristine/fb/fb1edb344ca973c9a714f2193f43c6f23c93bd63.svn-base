@@ -1,0 +1,28 @@
+import Vue from 'vue'
+
+
+import axios from 'axios'
+//配置axios的全局基本路径
+axios.defaults.baseURL='http://localhost/'
+
+
+import Login from './views/Login.vue'
+import NotFound from './views/404.vue'
+
+let routes = [
+    {
+        path: '/',
+        component: () => import('./views/Home'),
+        name: '主页',
+        iconCls: 'fa fa-bar-chart',
+        children: [
+            { path: '/echarts', component: () => import('./views/charts/echarts'), name: 'echarts' }
+        ]
+    }
+];
+
+
+
+
+export default routes;
+

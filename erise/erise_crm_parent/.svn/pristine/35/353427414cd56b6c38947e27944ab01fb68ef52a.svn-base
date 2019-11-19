@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.setted.SettedMapper">
+
+    <insert id="save" parameterType="Setted">
+        insert into  t_setted(custormer,settedtime,re_amount,pay_amount,mainid)
+        VALUES(#{custormer},#{settedtime},#{re_amount},#{pay_amount},#{repairOrder.id})
+    </insert>
+    <!--void remove(Serializable id);-->
+    <delete id="remove" parameterType="long">
+        delete from t_setted where id = #{id}
+    </delete>
+    <!--void update(T t);-->
+    <update id="update" parameterType="Setted">
+        update t_setted set custormer = #{custormer}
+        ,settedtime = #{settedtime}
+        ,re_amount = #{re_amount}
+        ,pay_amount = #{pay_amount}
+        where id = #{id}
+    </update>
+    <!--建立关系-->
+    <resultMap type="Setted" id="SettedMainResultMap">
+        <id property="id" column="id"/>
+        <result property="custormer" column="custormer"/>
+        <result property="settedtime" column="settedtime"/>
+        <result property="re_amount" column="re_amount"/>
+        <result property="pay_amount" column="pay_amount"/>
+        <!-- association：配置的一对一属性 -->
+        <!-- property：名字			 javaType：类型		 -->
+        <association property="repairOrder" javaType="RepairOrder">
+            <id property="id" column="mainid"/>
+        </association>
+        <association property="pay" javaType="Pay">
+            <id property="id" column="pid"/>
+            <result property="paytypename" column="paytypename"/>
+        </association>
+    </resultMap>
+
+
+    <!--T findOne(Serializable id);-->
+    <select id="findOne" resultMap="SettedMainResultMap" parameterType="long" >
+        select *
+		from t_setted s
+		left join t_repairorder r
+		on s.mainid = r.id
+		left join t_pay p
+		on s.payid = p.id
+		where s.id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="SettedMainResultMap">
+        select *
+		from t_setted s
+		left join t_repairorder r
+		on s.mainid = r.id
+		left join t_pay p
+		on s.payid = p.id
+    </select>
+
+
+
+    <!--***************************************-->
+    <resultMap type="Setted" id="SettedMainResultMap1">
+        <id property="id" column="id"/>
+        <result property="custormer" column="custormer"/>
+        <result property="settedtime" column="settedtime"/>
+        <result property="re_amount" column="re_amount"/>
+        <result property="pay_amount" column="pay_amount"/>
+        <result property="num" column="dnum"></result>
+        <result property="partsname" column="epartsname"></result>
+        <result property="optPrivce" column="eprice"></result>
+        <!-- association：配置的一对一属性 -->
+        <!-- property：名字			 javaType：类型		 -->
+        <association property="repairOrder" javaType="RepairOrder">
+            <id property="id" column="bid"/>
+            <result property="address" column="b.address"></result>
+            <result property="status" column="bstatus"></result>
+            <result property="custormer" column="bcustormer"></result>
+            <result column="bcarnum" property="carnum"></result>
+        </association>
+        <association property="pay" javaType="Pay">
+            <id property="id" column="cid"/>
+            <result property="paytypename" column="c.paytypename"/>
+        </association>
+    </resultMap>
+
+    <sql id="a">
+         select a.id,a.custormer,a.settedtime,a.re_amount,a.pay_amount,
+         b.id as bid,b.status as bstatus,b.custormer as bcustormer,IFNULL(b.address,'暂无地址') as `b.address`,b.carnum as bcarnum,
+         paytypename as `c.paytypename`,d.num as dnum,e.partsname as epartsname,e.price as eprice,c.id cid
+         from t_setted a left join  t_repairorder b on a.mainid = b.id
+         left join t_pay c on a.payid = c.id
+         left join t_repairorderitem d on d.mainid = b.id
+         left join t_parts e on d.pid = e.id
+    </sql>
+    <!--*************************分页***********************************-->
+    <sql id="whereSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and custormer like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!--要想做分页就要实现两条sql-->
+    <!--Long querryCount(BaseQuery query);-->
+    <select id="querryCount" parameterType="SettedQuery" resultType="long">
+        select count(*) from t_setted
+        <include refid="whereSql"/>
+    </select>
+    <!--List<T> queryData(BaseQuery query);-->
+    <select id="queryData" parameterType="SettedQuery" resultMap="SettedMainResultMap1">
+        <include refid="a"/>
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and a.custormer like concat('%',#{keywords},'%')
+            </if>
+        </where>
+        limit #{start},#{pageSize}
+    </select>
+
+
+    <!--修改结算单的客户姓名和支付方式-->
+    <update id="updateNameAndPayName" >
+         update t_setted set custormer=#{0},payid=#{1},`pay_amount`=#{2} where id=#{3}
+    </update>
+    <!--根据setted的id查询mainId-->
+    <select id="findMainIdByid" parameterType="long" resultType="long">
+        select mainid from t_setted where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.opt.OptMapper">
+    <!--1.张明伟2019/11/8 17:42-->
+    <!--1.查询所有维修人员信息-->
+    <select id="findAll" resultType="Opt">
+        select * from t_opt
+    </select>
+    <!--1.查询一条维修人员信息-->
+    <select id="findOne" parameterType="long" resultType="Opt">
+        select * from t_opt where id = #{id}
+    </select>
+    <!--1.添加一条维修人员信息-->
+    <insert id="save" parameterType="Opt">
+        insert into t_opt(optname,age,email,hiredate) values (#{optname},#{age},#{email},#{hiredate})
+    </insert>
+    <!--1.修改一条维修人员信息-->
+    <update id="update" parameterType="Opt">
+        update t_opt set optname=#{optname},age=#{age},email=#{email},hiredate=#{hiredate} where id = #{id}
+    </update>
+    <!--1.删除一条维修人员信息-->
+    <delete id="remove" parameterType="long">
+        delete from t_opt where id = #{id}
+    </delete>
+</mapper>

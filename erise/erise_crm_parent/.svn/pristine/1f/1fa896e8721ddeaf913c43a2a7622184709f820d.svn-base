@@ -1,0 +1,9 @@
+package com.xmh.crm.service.setted;
+
+
+import com.xmh.basic.service.BaseService;
+import com.xmh.crm.domain.setted.Setted;
+
+public interface ISettedService extends BaseService<Setted> {
+
+}

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.permission.PermissionMapper">
+    <sql id="associatedQuery">
+    select a.id,a.`name`,a.resource,c.id as rid,c.`name` as rname,c.sn
+    from t_permission a LEFT JOIN t_role_permission b on a.id = b.permission_id
+    INNER JOIN t_role c on c.id = b.role_id
+    </sql>
+    <!--void save(T t);-->
+    <insert id="save" parameterType="Permission">
+        insert into  t_permission
+        (name,resource)
+        VALUES(#{name},#{resource})
+    </insert>
+    <!--void remove(Serializable id);-->
+    <delete id="remove" parameterType="long">
+        delete from t_permission where id = #{id }
+    </delete>
+    <!--void update(T t);-->
+    <update id="update" parameterType="Permission">
+        update t_permission set name = #{name},resource=#{resource} where id = #{id}
+    </update>
+    <!--T findOne(Serializable id);-->
+    <select id="findOne" parameterType="long" resultMap="roleMap">
+        <include refid="associatedQuery"/>
+        where a.id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="roleMap">
+       <include refid="associatedQuery"/>
+    </select>
+    <resultMap id="roleMap" type="Permission">
+        <id property="id" column="id"></id>
+        <result column="resource" property="resource"></result>
+        <result column="name" property="name"></result>
+        <collection property="roleList" ofType="Role">
+            <id column="rid" property="id"></id>
+            <result property="sn" column="sn"/>
+            <result property="name" column="rname"/>
+        </collection>
+    </resultMap>
+
+    <!--分页处理-->
+    <!--
+   把第一个and变成where
+   keywords作用于sn和name字段
+-->
+    <sql id="whereSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and (
+                  name like concat('%',#{keywords},'%')
+                or
+                  resource like concat('%',#{keywords},'%')
+                )
+            </if>
+        </where>
+    </sql>
+
+    <!--要想做分页就要实现两条sql-->
+    <!--Long querryCount(BaseQuery query);-->
+    <select id="querryCount" parameterType="PermissionQuery" resultType="long">
+        select count(*) from t_permission
+        <include refid="whereSql"/>
+    </select>
+    <!--List<T> queryData(BaseQuery query);-->
+    <select id="queryData" parameterType="PermissionQuery" resultType="Permission">
+        select * from t_permission
+        <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+
+</mapper>

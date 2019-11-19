@@ -1,0 +1,11 @@
+package com.xmh.crm.service.impl.systemMenu;
+
+import com.xmh.basic.service.impl.BaseServiceImpl;
+import com.xmh.crm.domain.systemMenu.SystemMenu;
+import com.xmh.crm.service.systemMenu.ISystemMenuService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenu> implements ISystemMenuService {
+
+}

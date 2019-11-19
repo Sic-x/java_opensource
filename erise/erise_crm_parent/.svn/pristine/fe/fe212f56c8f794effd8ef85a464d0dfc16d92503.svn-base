@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.systemMenu.SystemMenuMapper">
+
+    <insert id="save" parameterType="systemmenu">
+        insert into  t_systemmenu(name,sn,url,icon,intro) VALUES (#{name},#{sn},#{url},#{icon},#{intro})
+    </insert>
+    <!--void remove(Serializable id);-->
+    <delete id="remove" parameterType="long">
+        delete from t_systemmenu where id = #{id }
+    </delete>
+    <!--void update(T t);-->
+    <update id="update" parameterType="systemmenu">
+        update t_systemMenu set name = #{name},sn=#{sn},url=#{url},icon=#{icon},intro=#{intro}
+        where id = #{id}
+    </update>
+    <!--T findOne(Serializable id);-->
+    <select id="findOne" parameterType="long" resultMap="systemMap">
+        select  * from t_systemMenu where id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="systemMap">
+        select id,name,sn,intro,icon,url,parent from t_systemmenu
+    </select>
+    <resultMap id="systemMap" type="systemmenu">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"/>
+        <result column="intro" property="intro"/>
+        <result column="icon" property="icon"/>
+        <result column="url" property="url"/>
+        <association property="parent"  column="parent" select="findOne">
+        </association>
+    </resultMap>
+
+
+</mapper>

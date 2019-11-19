@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.setted.SettedMapper">
+
+    <insert id="save" parameterType="Setted">
+        insert into  t_setted(custormer,settedtime,re_amount,pay_amount,mainid)
+        VALUES(#{custormer},#{settedtime},#{re_amount},#{pay_amount},#{repairOrder.id})
+    </insert>
+    <!--void remove(Serializable id);-->
+    <delete id="remove" parameterType="long">
+        delete from t_setted where id = #{id}
+    </delete>
+    <!--void update(T t);-->
+    <update id="update" parameterType="Setted">
+        update t_setted set custormer = #{custormer}
+        ,settedtime = #{settedtime}
+        ,re_amount = #{re_amount}
+        ,pay_amount = #{pay_amount}
+        where id = #{id}
+    </update>
+    <!--建立关系-->
+    <resultMap type="Setted" id="SettedMainResultMap">
+        <id property="id" column="id"/>
+        <result property="custormer" column="custormer"/>
+        <result property="settedtime" column="settedtime"/>
+        <result property="re_amount" column="re_amount"/>
+        <result property="pay_amount" column="pay_amount"/>
+        <!-- association：配置的一对一属性 -->
+        <!-- property：名字			 javaType：类型		 -->
+        <association property="repairOrder" javaType="RepairOrder">
+            <id property="id" column="mainid"/>
+        </association>
+        <association property="pay" javaType="Pay">
+            <id property="id" column="pid"/>
+            <result property="paytypename" column="paytypename"/>
+        </association>
+    </resultMap>
+
+
+    <!--T findOne(Serializable id);-->
+    <select id="findOne" resultMap="SettedMainResultMap" parameterType="long" >
+        select *
+		from t_setted s
+		left join t_repairorder r
+		on s.mainid = r.id
+		left join t_pay p
+		on s.payid = p.id
+		where s.id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="SettedMainResultMap">
+        select *
+		from t_setted s
+		left join t_repairorder r
+		on s.mainid = r.id
+		left join t_pay p
+		on s.payid = p.id
+    </select>
+
+</mapper>

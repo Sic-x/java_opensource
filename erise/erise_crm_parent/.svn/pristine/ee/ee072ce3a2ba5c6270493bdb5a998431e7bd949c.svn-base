@@ -1,0 +1,17 @@
+package com.xmh.basic.service;
+
+import java.util.List;
+
+public interface BaseService<T> {
+
+    List<T> findAll();
+
+    T findOne(Long id);
+
+    void save(T t);
+
+    void update(T t);
+
+    void remove(Long id);
+
+}

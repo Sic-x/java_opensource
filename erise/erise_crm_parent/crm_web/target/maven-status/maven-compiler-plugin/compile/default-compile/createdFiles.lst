@@ -1,0 +1,14 @@
+com\xmh\crm\web\controller\pay\PayController.class
+com\xmh\crm\web\controller\opt\OptController.class
+com\xmh\crm\web\controller\repairOrderItem\RepairOrderItemController.class
+com\xmh\crm\web\controller\systemlog\SystemlogController.class
+com\xmh\crm\web\controller\repairOrder\RepairOrderController.class
+com\xmh\crm\web\controller\systemMenu\SystemMenuController.class
+com\xmh\crm\web\controller\parts\PartsController.class
+com\xmh\crm\web\controller\role\RoleController.class
+com\xmh\crm\web\controller\permission\PermissionController.class
+com\xmh\crm\web\controller\setted\SettedController.class
+com\xmh\crm\web\controller\user\UserController.class
+com\xmh\crm\web\config\SwaggerConfig.class
+com\xmh\crm\web\controller\resources\ResourcesController.class
+com\xmh\crm\web\controller\DepartmentController.class

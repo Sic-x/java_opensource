@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.repairOrder.RepairOrderMapper">
+    <sql id="querysql">
+        select * from t_repairorder a left JOIN t_opt b on a.optid = b.id
+    </sql>
+    <!--添加一条维修订单-->
+    <insert id="save" parameterType="RepairOrder">
+        insert into t_repairorder(custormer,carnum,createtime,status,address,optid) values (#{custormer},#{carnum},#{createtime},#{status},#{address},#{opt.id})
+    </insert>
+    <!--修改一条维修订单-->
+    <update id="update" parameterType="RepairOrder">
+        update t_repairorder set custormer=#{custormer},carnum=#{carnum},createtime=#{createtime},status=#{status},address=#{address},optid=#{opt.id} where id = #{id}
+    </update>
+    <!--删除一条维修订单-->
+    <delete id="remove" parameterType="long">
+        delete from t_repairorder where id = #{id}
+    </delete>
+    <!--查询所有维修订单-->
+    <select id="findAll" resultMap="RepairOrderMap">
+        <include refid="querysql"/>
+    </select>
+    <!--查询一条维修订单-->
+    <select id="findOne" parameterType="long" resultMap="RepairOrderMap">
+       <include refid="querysql"/>where a.optid = #{id}
+    </select>
+    <resultMap id="RepairOrderMap" type="RepairOrder" >
+        <id column="id" property="id"></id>
+        <result column="custormer" property="custormer"></result>
+        <result column="carnum" property="carnum"></result>
+        <result column="createtime" property="createtime"></result>
+        <result column="status" property="status"></result>
+        <result column="address" property="address"></result>
+
+        <association property="opt" javaType="Opt">
+            <id column="id" property="id"></id>
+            <result column="optname" property="optname"></result>
+            <result column="age" property="age"></result>
+            <result column="email" property="email"></result>
+            <result column="hiredate" property="hiredate"></result>
+        </association>
+    </resultMap>
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- 获取sessionid-->
+    <bean id="sessionManager" class="com.xmh.crm.shiro.util.CrmSessionManager">
+    </bean>
+
+    <!--shiro的核心对象-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--配置realm-->
+        <property name="realm" ref="authRealm"/>
+        <property name="sessionManager" ref="sessionManager"></property>
+    </bean>
+
+
+
+
+    <!--Realms-->
+    <bean id="authRealm" class="com.xmh.crm.shiro.realm.AuthenRealm">
+        <property name="credentialsMatcher">
+            <bean class="com.xmh.crm.shiro.util.MyHashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="MD5"/>
+                <property name="hashIterations" value="10"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 配置自定义认证过滤器 放行options请求 -->
+    <bean id="myAuth" class="com.xmh.crm.shiro.util.MyAuthenticationFilter"></bean>
+
+    <!-- //shiro的过滤器配置
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/s/index"/>
+        <property name="unauthorizedUrl" value="/s/unauthorized"/>
+
+        <property name="filters">
+            <map>
+                <entry key="myAuth" value-ref="myAuth"></entry>
+            </map>
+        </property>
+        &lt;!&ndash; 过滤器链&ndash;&gt;
+        <property name="filterChainDefinitions">
+            <value>
+                /bind.jsp = anon
+                /login = anon
+                /callback = anon
+                /binder = anon
+                /js/** = anon
+                /** = myAuth
+            </value>
+        </property>
+    </bean>
+-->
+
+    <!--真实过滤器  id必须是web.xml里面配的名字-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager" />
+        <!--认证没有成功跳转的页面-->
+        <property name="loginUrl" value="/login" />
+        <!--登录成功 进入的页面-->
+        <property name="successUrl" value="/login" />
+        <!--没有权限  进入的页面-->
+        <property name="unauthorizedUrl" value="/login" />
+
+        <!--
+            配置放行和拦截的请求
+            anon：不需要登录也可以访问相应的权限
+            authc：需要权限才能访问
+            /** ：所有文件及其子文件
+        -->
+        <!--<property name="filterChainDefinitions">
+            <value>
+                /s/login.jsp=anon
+                /login=anon
+                    &lt;!&ndash;对资源进行权限控制，要控制的资源都应该从数据库查出，现在咱们先写死&ndash;&gt;
+                /s/permission.jsp = perms[user:*]
+                /**=authc
+            </value>
+        </property>-->
+        <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap" />
+        <!-- 引用自定义的权限过滤器 -->
+        <property name="filters">
+            <map>
+                <entry key="myAuth" value-ref="myAuth"></entry>
+                <entry key="myPer" value-ref="mypermission" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置自定义权限过滤器 -->
+    <bean id="mypermission" class="com.xmh.crm.shiro.util.MyPermissionsAuthorizationFilter" />
+
+    <!--
+        配置bean
+        factory-bean：具体应用bean
+        factory-method：调用里面的方法
+    -->
+    <bean id="filterChainDefinitionMap" factory-bean="filterChainDefinitionMapBuilder" factory-method="createFilterChainDefinitionMap" />
+
+    <bean id="filterChainDefinitionMapBuilder" class="com.xmh.crm.shiro.util.FilterChainDefinitionMapBuilder" />
+
+
+</beans>

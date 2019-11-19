@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.repairOrder.RepairOrderMapper">
+    <!--查询所有维修订单-->
+    <select id="findAll" resultType="RepairOrder">
+        select * from t_repairorder
+    </select>
+    <!--查询一条维修订单-->
+    <select id="findOne" parameterType="long" resultType="RepairOrder">
+        select * from t_repairorder where id = #{id}
+    </select>
+    <!--添加一条维修订单-->
+    <insert id="save" parameterType="RepairOrder">
+        insert into t_repairorder(custormer,carnum,createtime,status,address) values (#{custormer},#{carnum},#{createtime},#{status},#{address})
+    </insert>
+    <!--修改一条维修订单-->
+    <update id="update" parameterType="RepairOrder">
+        update t_repairorder set custormer=#{custormer},carnum=#{carnum},createtime=#{createtime},status=#{status},address=#{address} where id = #{id}
+    </update>
+    <!--删除一条维修订单-->
+    <delete id="remove" parameterType="long">
+        delete from t_repairorder where id = #{id}
+    </delete>
+</mapper>

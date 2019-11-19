@@ -1,0 +1,5 @@
+com\xmh\basic\query\BaseQuery.class
+com\xmh\basic\mapper\BaseMapper.class
+com\xmh\basic\service\BaseService.class
+com\xmh\basic\service\impl\BaseServiceImpl.class
+com\xmh\basic\domain\BaseDomain.class

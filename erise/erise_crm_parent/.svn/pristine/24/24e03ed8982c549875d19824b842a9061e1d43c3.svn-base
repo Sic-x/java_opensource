@@ -1,0 +1,9 @@
+package com.xmh.crm.service.repairOrder;
+
+
+import com.xmh.basic.service.BaseService;
+import com.xmh.crm.domain.repairOrder.RepairOrder;
+
+public interface IRepairOrderService extends BaseService<RepairOrder> {
+
+}

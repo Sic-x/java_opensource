@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.role.RoleMapper">
+    <sql id="associatedQuery">
+    select  a.id as aid,a.`name`,a.sn,b.role_id,c.id as pid,c.`name` as pname,c.resource
+    from t_role a LEFT JOIN t_role_permission b on a.id = b.role_id
+    left JOIN t_permission c on b.permission_id = c.id
+
+</sql>
+    <!--.id as aid,a.`name`,a.sn,b.role_id,c.id as pid,c.`name` as pname,c.resource-->
+    <!--添加一条员工信息-->
+    <insert id="save" parameterType="Role" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into t_role (sn,name) values (#{sn},#{name})
+    </insert>
+    <!-- 参数 arrayList list List ArrayList -->
+    <insert id="insertRoleAndPermssion" parameterType="java.util.List">
+        insert into t_role_permission(role_id,permission_id) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId},#{item.permissionId})
+        </foreach>
+    </insert>
+    <!--修改一条员工信息-->
+    <update id="update" parameterType="Role">
+        update t_role  set sn=#{sn},name=#{name}  where id = #{id}
+    </update>
+    <!--删除一条员工信息-->    <delete id="remove" parameterType="long">
+
+        delete from t_role where id = #{id}
+    </delete>
+    <delete id="deleteRolePermssion" parameterType="long">
+        delete from t_role_permission where role_id=#{id}
+    </delete>
+    <!--查询所有员工信息-->
+    <select id="findAll" resultMap="permissionMap">
+        <include refid="associatedQuery"/>
+    </select>
+    <!--查询一条员工信息-->
+    <select id="findOne" parameterType="long" resultMap="permissionMap">
+        <include refid="associatedQuery"/>
+        where a.id = #{id}
+    </select>
+    <resultMap id="permissionMap" type="Role">
+        <id column="aid" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"></result>
+        <collection property="permissionList"  ofType="Permission">
+            <id column="pid" property="id"/>
+            <result column="pname" property="name"/>
+            <result column="resource" property="resource"/>
+        </collection>
+    </resultMap>
+
+
+    <sql id="whereSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and
+                name like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+    <sql id="andSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and
+                a.name like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+    <!--要想做分页就要实现两条sql-->
+    <!--Long querryCount(BaseQuery query);-->
+    <select id="querryCount" parameterType="RoleQuery" resultType="long">
+        select count(*) from t_role
+        <include refid="whereSql"/>
+    </select>
+    <!--List<T> queryData(BaseQuery query);-->
+    <select id="queryData" parameterType="RoleQuery" resultMap="permissionMap">
+        <include refid="associatedQuery"/>
+        <include refid="andSql"/>
+        and   a.id in(SELECT temp.id from (SELECT id from t_role limit #{start},#{pageSize})AS temp )
+
+    </select>
+</mapper>

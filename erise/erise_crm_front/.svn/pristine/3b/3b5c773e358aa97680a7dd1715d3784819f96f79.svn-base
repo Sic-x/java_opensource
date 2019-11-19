@@ -1,0 +1,431 @@
+<template>
+	<section>
+		<!--工具条-->
+		<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+			<el-form :inline="true" :model="filters">
+				<el-form-item>
+					<el-input v-model="filters.carnum" placeholder="车牌号"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" v-on:click="getRepairOrders">查询</el-button>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="handleAdd">新增</el-button>
+				</el-form-item>
+			</el-form>
+		</el-col>
+
+		<!--列表-->
+		<el-table :data="repairOrders" highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+			<el-table-column type="selection" >
+			</el-table-column>
+			<el-table-column type="index" >
+			</el-table-column>
+			<el-table-column prop="custormer" label="客户名称" sortable >
+			</el-table-column>
+			<el-table-column prop="carnum" label="车牌号" sortable >
+			</el-table-column>
+			<el-table-column :formatter="timeformat" label="创建时间" sortable >
+			</el-table-column>
+			<el-table-column  label="状态" prop="status"	 sortable>
+				<template slot-scope="scope">
+					{{scope.row.status?"已录入":"已结算"}}
+				</template>
+			</el-table-column>
+			<el-table-column prop="address" label="地址" sortable>
+			</el-table-column>
+			<el-table-column prop="opt.optname" label="维修人员" sortable  >
+			</el-table-column>
+			<el-table-column label="操作" align="center"  width="250">
+				<template scope="scope">
+					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+					<el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button>
+					<el-button size="small" @click="itemEdit(scope.$index, scope.row)">明细</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
+
+		<!--工具条-->
+		<el-col :span="24" class="toolbar">
+			<el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
+			<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange"  :total="total" style="float:right;">
+			</el-pagination>
+		</el-col>
+
+		<!--编辑界面-->
+		<el-dialog title="编辑" :visible.sync="editFormVisible" :close-on-click-modal="false">
+			<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
+				<el-form-item label="客户名称" prop="customer">
+					<el-input v-model="editForm.custormer" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="车牌号" prop="carnum">
+					<el-input v-model="editForm.carnum" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="地址" prop="address">
+					<el-input v-model="editForm.address"  auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修人员" prop="opt.optname">
+					<el-select v-model="editForm.opt" value-key="id"   placeholder="请选择">
+						<el-option  v-for="opt in optList"
+									:key="opt.id"
+									:label="opt.optname"
+									:value="opt">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="维修配件" prop="parts">
+					<el-select v-model="editForm.parts" value-key="id" placeholder="请选择">
+						<el-option  v-for="parts in partsList"
+									:key="parts.id"
+									:label="parts.partsname"
+									:value="parts">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="工时费" prop="atm2">
+					<el-input v-model="editForm.amt2" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="配件数量" prop="num">
+					<el-input v-model="editForm.num" auto-complete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="editFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+			</div>
+		</el-dialog>
+		<!--明细界面-->
+		<el-dialog title="明细" :visible.sync="itemFormVisible" :close-on-click-modal="false">
+			<el-form :model="itemForm" label-width="80px" :rules="itemFormRules" ref="itemForm">
+				<el-form-item label="配件价格" prop="amt1">
+					<el-input v-model="itemForm.amt1" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="工时费" prop="atm2">
+					<el-input v-model="itemForm.amt2" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="配件数量" prop="num">
+					<el-input v-model="itemForm.num" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修员" prop="opt">
+					<el-input v-model="itemForm.opt.optname" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修单号" prop="repairorder">
+					<el-input v-model="itemForm.repairOrder.id" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修配件" prop="parts">
+					<el-input v-model="itemForm.parts.partsname" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修总价" prop="totalamt">
+					<el-input v-model="itemForm.totalamt" auto-complete="off"></el-input>
+				</el-form-item>
+			</el-form>
+		</el-dialog>
+
+		<!--新增界面-->
+		<el-dialog title="新增" :visible.sync="addFormVisible" :close-on-click-modal="false">
+			<el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+				<el-form-item label="客户名称" prop="customer">
+					<el-input v-model="addForm.custormer" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="车牌号" prop="carnum">
+					<el-input v-model="addForm.carnum" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="地址" prop="address">
+					<el-input v-model="addForm.address" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="维修人员" prop="opt.optname">
+					<el-select v-model="addForm.opt" value-key="id" placeholder="请选择">
+						<el-option  v-for="opt in optList"
+									:key="opt.id"
+									:label="opt.optname"
+									:value="opt">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="维修配件" prop="parts">
+					<el-select v-model="addForm.parts" value-key="id" placeholder="请选择">
+						<el-option  v-for="parts in partsList"
+									:key="parts.id"
+									:label="parts.partsname"
+									:value="parts">
+						</el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item label="工时费" prop="atm2">
+					<el-input v-model="addForm.amt2" auto-complete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="配件数量" prop="num">
+					<el-input v-model="addForm.num" auto-complete="off"></el-input>
+				</el-form-item>
+
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click.native="addFormVisible = false">取消</el-button>
+				<el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+			</div>
+		</el-dialog>
+	</section>
+</template>
+
+<script>
+	import util from '../../common/js/util'
+	//import NProgress from 'nprogress'
+	import { getUserListPage, removeUser, batchRemoveUser, editUser, addUser } from '../../api/api';
+
+	export default {
+		data() {
+			return {
+				filters: {
+					carnum: ''
+				},
+				repairOrders: [],
+				optList:[],
+				partsList:[],
+                keywords:"",
+				total: 0,
+				page: 1,
+				listLoading: false,
+				sels: [],//列表选中列
+                itemFormVisible:false,
+				itemLoading: false,
+                itemFormRules:{},
+				itemForm:{
+				    opt:"",
+					repairOrder:"",
+					parts:"",
+					repairOrder:""
+				},
+				editFormVisible: false,//编辑界面是否显示
+				editLoading: false,
+				editFormRules: {
+                    carnum: [
+                        { required: true, message: '请输入车牌号', trigger: 'blur' }
+                    ],
+                    address: [
+                        { required: true, message: '请输入地址', trigger: 'blur' }
+                    ]
+				},
+				//编辑界面数据
+				editForm: {
+                   	opt: '',
+                    address:'',
+                    carnum:'',
+                    custormer:''
+				},
+
+				addFormVisible: false,//新增界面是否显示
+				addLoading: false,
+				addFormRules: {
+                    carnum: [
+						{ required: true, message: '请输入车牌号', trigger: 'blur' }
+					],
+                    address: [
+                        { required: true, message: '请输入地址', trigger: 'blur' }
+                    ]
+				},
+				//新增界面数据
+				addForm: {
+					opt: '',
+					address:'',
+                    carnum:'',
+                    custormer:'',
+					parts:'',
+                   	amt1:''
+				}
+
+			}
+		},
+		methods: {
+            timeformat:function(row) {//将后台传过来的valueOf格式的时间改成yyyy/m/d的格式
+                const
+                    date = new Date(row.createtime),
+                    y = date.getFullYear(),
+                    m = date.getMonth() + 1,
+                    d = date.getDate(),
+					h= date.getHours()
+                return `${y}/${m}/${d}/${h}`
+            },
+			handleCurrentChange(val) {
+				this.page = val;
+				this.getRepairOrders();
+			},
+            doGetDicts() {
+                     this.$http.patch("/opt/findAll").then((res) => {
+                            this.optList= res.data;//把请求返回的列表，赋值给之前定义的
+                        })
+            },
+			doGetparts(){
+                this.$http.patch("/parts/findAll").then((res) => {
+                    this.partsList= res.data;//把请求返回的列表，赋值给之前定义的
+                })
+			},
+			//获取用户列表
+			getRepairOrders() {
+				let para = {
+					page: this.page,
+                    keywords: this.filters.carnum
+				};
+				//加载属性
+				this.listLoading = true;
+				this.$http.patch('/repairOrder',para).then((res) => {
+					this.total = res.data.total;
+					this.repairOrders = res.data.rows;
+					this.listLoading = false;
+				});
+			},
+			//删除
+			handleDel: function (index, row) {
+				this.$confirm('确认删除该记录吗?', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					//NProgress.start();
+					let para = { id: row.id };
+					//removeUser(para).then((res) => {
+					this.$http.delete('/repairOrder/'+row.id).then((res) => {
+						this.listLoading = false;
+						//NProgress.done();
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						});
+						this.getRepairOrders();
+
+					});
+				}).catch(() => {
+
+				});
+			},
+			//显示编辑界面
+			handleEdit: function (index, row) {
+				this.editFormVisible = true;
+				this.$http.get("/repairOrderItem/findOne/"+row.id).then((res)=>{
+
+                    this.editForm = Object.assign({},row,res.data);
+                    this.editForm.parts = {
+                        id:res.data.parts.id,
+                        partsname:res.data.parts.partsname
+                    };
+                    this.editForm.opt={
+                        id:res.opt.id,
+                        optname:res.opt.optname
+                    };
+				})
+
+
+			},
+			itemEdit:function (index,row) {
+                this.itemFormVisible = true;
+                this.itemForm = Object.assign({}, row);
+                console.log(row.id);
+                this.$http.get("/repairOrderItem/findOne/"+this.itemForm.id).then((res)=>{
+                    if(res.data==null||res.data==""){
+                        this.$confirm('没有明细', '提示', {
+                            type:"warning"
+						})
+					}else {
+                        this.itemForm = res.data;
+					}
+				})
+            },
+			//显示新增界面
+			handleAdd: function () {
+				this.addFormVisible = true;
+				//清空表单数据
+				this.addForm = {
+
+				};
+			},
+			//修改
+			editSubmit: function () {
+				this.$refs.editForm.validate((valid) => {
+					if (valid) {
+						this.$confirm('确认提交吗？', '提示', {}).then(() => {
+							this.editLoading = true;
+							//NProgress.start();
+							let para = Object.assign({}, this.editForm);
+							console.log(para);
+							para.amt1=null;
+							//editUser(para).then((res) => {
+                            this.$http.put('/repairOrder',para).then((res) => {
+								this.editLoading = false;
+								//NProgress.done();
+								this.$message({
+									message: '提交成功',
+									type: 'success'
+								});
+								this.$refs['editForm'].resetFields();
+								this.editFormVisible = false;
+								this.getRepairOrders();
+								this.doGetDicts();
+							});
+						});
+					}
+				});
+			},
+			//新增
+			addSubmit: function () {
+				this.$refs.addForm.validate((valid) => {
+					if (valid) {
+						this.$confirm('确认提交吗？', '提示', {}).then(() => {
+							this.addLoading = true;
+							//NProgress.start();
+							//assign拷贝 把form表单数据拷贝到新增对象里面
+							let para = Object.assign({}, this.addForm);
+							//addUser(para).then((res) => {
+							console.log(para);
+							this.$http.put('/repairOrder',para).then((res) => {
+								this.addLoading = false;
+								//NProgress.done();
+								this.$message({
+									message: '提交成功',
+									type: 'success'
+								});
+								this.$refs['addForm'].resetFields();
+								this.addFormVisible = false;
+								this.getRepairOrders();
+                                this.doGetDicts();
+							});
+						});
+					}
+				});
+			},
+			selsChange: function (sels) {
+				this.sels = sels;
+			},
+			//批量删除
+			batchRemove: function () {
+				var ids = this.sels.map(item => item.id).toString();
+				this.$confirm('确认删除选中记录吗？', '提示', {
+					type: 'warning'
+				}).then(() => {
+					this.listLoading = true;
+					//NProgress.start();
+					let para = { ids: idsdelete };
+					batchRemoveUser(para).then((res) => {
+                    //this.$http.delete('/department',para).then((res) => {
+						this.listLoading = false;
+						//NProgress.done();
+						this.$message({
+							message: '删除成功',
+							type: 'success'
+						});
+						this.getRepairOrders();
+					});
+				}).catch(() => {
+
+				});
+			}
+		},
+		mounted() {
+			this.getRepairOrders();
+			this.doGetDicts();
+			this.doGetparts();
+		}
+	}
+
+</script>
+
+<style scoped>
+
+</style>

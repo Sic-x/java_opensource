@@ -1,0 +1,21 @@
+package com.xmh.util;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+
+public class UserContext {
+
+    public static final String LOGINUSER= "loginUser";
+
+    //操作session方便一点
+    //设值
+    public static void setUser(Object obj){
+        Subject subject = SecurityUtils.getSubject();
+        subject.getSession().setAttribute(LOGINUSER,obj);
+    }
+    //取值
+    public static Object getUser(){
+        Subject subject = SecurityUtils.getSubject();
+        return  subject.getSession().getAttribute(LOGINUSER);
+    }
+}

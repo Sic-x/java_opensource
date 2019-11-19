@@ -1,0 +1,95 @@
+
+import Vue from 'vue'
+import Router from 'vue-router'
+Vue.use(Router)
+
+import axios from 'axios'
+//配置axios的全局基本路径
+axios.defaults.baseURL='http://localhost/'
+
+
+
+let routes   //=[{path: '/login',component:()=>import(`@/views/Login.vue`),name: '',hidden: true},{path: '/404',component:()=>import(`@/views/404`),name: '',hidden: true},{path: '/',component:()=>import(`@/views/Home.vue`),name: 'echarts',iconCls: 'fa fa-bar-chart',leaf:true,children: [{ path: '/echarts', component:()=>import(`@/views/charts/echarts.vue`), name: '首页' }]},{path: '/',component:()=>import(`@/views/Home.vue`),name: '系统管理',iconCls: 'null',children: [{ path: '/permission', component:()=>import(`@/views/nav1/Permission.vue`), name: '权限管理',  },{ path: '/role', component:()=>import(`@/views/nav1/Role.vue`), name: '角色管理',  },{ path: '/pay', component:()=>import(`@/views/nav1/Pay.vue`), name: '支付管理',  },{ path: '/parts', component:()=>import(`@/views/nav1/Parts.vue`), name: '配件管理',  },{ path: '/department', component:()=>import(`@/views/nav1/RepairOrder.vue`), name: '部门管理',  },{ path: '/opt', component:()=>import(`@/views/nav1/Opt.vue`), name: '维修员管理',  },]},{path: '/',component:()=>import(`@/views/Home.vue`),name: '',iconCls: 'fa fa-address-card',leaf: true,children: [{ path: '/page6', component:()=>import(`@/views/nav3/Page6`), name: '导航三' }]},{path: '*',hidden: true,redirect: { path: '/404' }}]
+=[{path: '/login',component:()=>import(`@/views/Login.vue`),name: '',hidden: true},{path: '/404',component:()=>import(`@/views/404`),name: '',hidden: true},{path: '/',component:()=>import(`@/views/Home.vue`),name: 'echarts',iconCls: 'fa fa-bar-chart',leaf:true,children: [{ path: '/echarts', component:()=>import(`@/views/charts/echarts.vue`), name: '首页' }]},{path: '/',component:()=>import(`@/views/Home.vue`),name: '员工管理',iconCls: 'null',children: [{ path: '/setted', component:()=>import(`@/views/nav1/Setted.vue`), name: '还车管理',  },{ path: '/statement', component:()=>import(`@/views/nav1/Statement.vue`), name: '结算单管理',  },{ path: '/repairOrder', component:()=>import(`@/views/nav1/RepairOrder.vue`), name: '维修管理',  },]},{path: '/',component:()=>import(`@/views/Home.vue`),name: '系统管理',iconCls: 'null',children: [{ path: '/pay', component:()=>import(`@/views/nav1/Pay.vue`), name: '支付管理',  },{ path: '/department', component:()=>import(`@/views/nav1/RepairOrder.vue`), name: '部门管理',  },{ path: '/parts', component:()=>import(`@/views/nav1/Parts.vue`), name: '配件管理',  },{ path: '/opt', component:()=>import(`@/views/nav1/Opt.vue`), name: '维修员管理',  },{ path: '/role', component:()=>import(`@/views/nav1/Role.vue`), name: '角色管理',  },{ path: '/permission', component:()=>import(`@/views/nav1/Permission.vue`), name: '权限管理',  },]},{path: '/main',component:()=>import(`@/views/Main.vue`),name: '主页.',iconCls: 'null',children: []},{path: '/',component:()=>import(`@/views/Home.vue`),name: '',iconCls: 'fa fa-address-card',leaf: true,children: [{ path: '/page6', component:()=>import(`@/views/nav3/Page6`), name: '导航三' }]},{path: '*',hidden: true,redirect: { path: '/404' }}];
+
+if(!routes){
+    a();
+}
+
+async function a() {
+    await axios.post('/systemMenu/permission').then(res=>{
+        routes=eval(res.data)
+    })
+    await console.log(routes)
+    await console.log(routes)
+
+}
+
+console.log(routes)
+
+var router=new Router({
+    routes
+})
+/*
+[
+   /* {
+        path: '/login',
+        component: Login,
+        name: '',
+        hidden: true
+    },
+    {
+        path: '/404',
+        component: NotFound,
+        name: '',
+        hidden: true
+    },
+    //{ path: '/main', component: Main },
+    {
+        path: '/',
+        component: Home,
+        name: 'echarts',
+        iconCls: 'fa fa-bar-chart',
+        leaf:true,
+        children: [
+            { path: '/echarts', component: echarts, name: '首页' }
+        ]
+    },*/
+    //部门管理
+   /* {
+        path: '/',
+        component:()=>import(`@/views/Home.vue`),
+        name: '导航一',
+        iconCls: 'el-icon-message',//图标样式class
+    },*/
+   /* {
+        path: '/',
+        component: Home,
+        name: '导航二',
+        iconCls: 'fa fa-id-card-o',
+        children: [
+            { path: '/page4', component: Page4, name: '页面4' },
+            { path: '/page5', component: Page5, name: '页面5' }
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '',
+        iconCls: 'fa fa-address-card',
+        leaf: true,//只有一个节点
+        children: [
+            { path: '/page6', component: Page6, name: '导航三' }
+        ]
+    },
+
+    {
+        path: '*',
+        hidden: true,
+        redirect: { path: '/404' }
+    }
+];*/
+
+
+
+export default routes;

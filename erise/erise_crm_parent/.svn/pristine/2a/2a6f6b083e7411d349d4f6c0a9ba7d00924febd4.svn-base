@@ -1,0 +1,40 @@
+package com.xmh.crm.domain.role;
+
+import com.xmh.basic.domain.BaseDomain;
+
+/**
+ * 系统角色
+ */
+public class Role extends BaseDomain {
+
+    /**
+     * 角色编号
+     */
+    private String sn;
+
+    /**
+     * 角色名称
+     */
+    private String name;
+
+    /**
+     * 相关权限
+     */
+
+
+    public String getSn() {
+        return sn;
+    }
+
+    public void setSn(String sn) {
+        this.sn = sn;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}

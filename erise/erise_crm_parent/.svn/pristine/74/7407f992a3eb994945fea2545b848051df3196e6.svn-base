@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.role.RoleMapper">
+<sql id="associatedQuery">
+    select  a.id,a.`name`,a.sn,b.role_id,c.id as pid,c.`name` as pname,c.resource
+    from t_role a LEFT JOIN t_role_permission b on a.id = b.role_id
+    INNER JOIN t_permission c on b.permission_id = c.id
+</sql>
+    <!--添加一条员工信息-->
+    <insert id="save" parameterType="Role">
+        insert into t_role (sn,name) values (#{sn},#{name})
+    </insert>
+    <!--修改一条员工信息-->
+    <update id="update" parameterType="Role">
+        update t_role  set sn=#{sn},name=#{name},permission_id=#{permission_id} where id = #{id}
+    </update>
+    <!--删除一条员工信息-->
+    <delete id="remove" parameterType="long">
+        delete from t_role where id = #{id}
+    </delete>
+    <!--查询所有员工信息-->
+    <select id="findAll" resultMap="permissionMap">
+    <include refid="associatedQuery"/>
+    </select>
+    <!--查询一条员工信息-->
+    <select id="findOne" parameterType="long" resultMap="permissionMap">
+        <include refid="associatedQuery"/>
+        where a.id = #{id}
+    </select>
+    <resultMap id="permissionMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"></result>
+        <collection property="permissionList"  ofType="Permission">
+            <id column="pid" property="id"/>
+            <result column="pname" property="name"/>
+            <result column="resource" property="resource"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -1,0 +1,9 @@
+package com.xmh.crm.mapper.systemMenu;
+
+import com.xmh.basic.mapper.BaseMapper;
+import com.xmh.crm.domain.systemMenu.SystemMenu;
+
+public interface SystemMenuMapper extends BaseMapper<SystemMenu> {
+
+
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.wxusermapper.WxUserMapper">
+    <select id="findAll" resultType="WxUser">
+        select * from t_wxuser
+    </select>
+
+    <select id="findWxUserByOpenid" parameterType="string" resultType="WxUser">
+        select * from t_wxuser where openid=#{openid}
+    </select>
+
+
+    <insert id="save" parameterType="WxUser">
+       insert into t_wxuser(openid,nickname,sex,address,headimgurl,unionid,empid)
+       values(#{openid},#{nickname},#{sex},#{address},#{headimgurl},#{unionid},#{employee.id})
+    </insert>
+
+    <update id="update" parameterType="WxUser">
+        update t_wxuser set empid=#{empid} where openid=#{openid}
+    </update>
+
+    <delete id="remove" parameterType="long" >
+        delete from t_wxuser where id=#{id}
+    </delete>
+    <select id="findOne" parameterType="long" resultType="WxUser">
+        select * from t_wxuser where id=#{id}
+    </select>
+    
+    <sql id="whereSql">
+        <if test="keywords != null and keywords != ''">
+            and d.nickname like concat("%",#{keywords},"%")
+        </if>
+    </sql>
+
+
+
+
+</mapper>

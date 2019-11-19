@@ -1,0 +1,11 @@
+package com.xmh.crm.service.systemMenu;
+
+
+import com.xmh.basic.service.BaseService;
+import com.xmh.crm.domain.systemMenu.SystemMenu;
+
+public interface ISystemMenuService extends BaseService<SystemMenu> {
+
+    StringBuilder findAllByPermission();
+
+}

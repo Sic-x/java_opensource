@@ -1,0 +1,11 @@
+package com.xmh.crm.service.impl.repairOrder;
+
+import com.xmh.basic.service.impl.BaseServiceImpl;
+import com.xmh.crm.domain.repairOrder.RepairOrder;
+import com.xmh.crm.service.repairOrder.IRepairOrderService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RepairOrderServiceImpl extends BaseServiceImpl<RepairOrder> implements IRepairOrderService {
+
+}

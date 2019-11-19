@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xmh.crm.mapper.employee.EmployeeMapper">
+
+
+
+
+    <select id="findAll" resultType="Employee">
+        SELECT * from t_employee e
+    </select>
+
+    <insert id="save" parameterType="Employee">
+       insert into t_employee(username,realName,password,tel,email,dept_id,inputTime,type,tenant_id)
+        values(#{username},#{realName},#{password},#{tel},#{email},#{dept.id},#{inputTime},#{type}
+        ,#{tenant.id})
+    </insert>
+
+    <update id="update" parameterType="Employee">
+        update t_employee set username=#{username},realName=#{realName},
+        password=#{password},
+        tel=#{tel},email=#{email},dept_id=#{dept.id},
+        inputTime=#{inputTime},type=#{type},
+        tenant_id=#{tenant.id}
+         where id=#{id}
+    </update>
+
+    <delete id="remove" parameterType="long" >
+        delete from t_employee where id=#{id}
+    </delete>
+    <select id="findOne" parameterType="long" resultMap="TenantMap">
+        select * from t_employee e
+        LEFT JOIN t_department d
+        ON
+        e.dept_id = d.id
+        LEFT JOIN t_employee t
+        ON
+        e.tenant_id = t.id
+        where e.id=#{id}
+    </select>
+    <resultMap id="TenantMap" type="Employee">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="realName" column="realName"></result>
+        <result property="tel" column="tel"></result>
+        <result property="inputTime" column="inputTime"></result>
+        <result property="address" column="address"></result>
+        <result property="password" column="password"></result>
+
+        <association property="dept" column="dept_id" javaType="Department">
+            <id property="id" column="dept_id"></id>
+            <id property="name" column="name"></id>
+        </association>
+        <association property="tenant" column="tenant_id" javaType="Employee">
+            <id property="id" column="id"></id>
+            <id property="username" column="username"></id>
+        </association>
+    </resultMap>
+
+
+
+    <!--getByUsername-->
+    <select id="getByUsername" parameterType="string" resultType="Employee">
+        select * from t_employee where username=#{username}
+    </select>
+
+
+
+    <!--分页处理-->
+    <!--
+   把第一个and变成where
+   keywords作用于sn和name字段
+-->
+    <sql id="whereSql">
+        <where>
+            <if test="keywords!=null and keywords!=''">
+                and username like concat('%',#{keywords},'%')
+            </if>
+        </where>
+    </sql>
+
+    <!--要想做分页就要实现两条sql-->
+    <!--Long querryCount(BaseQuery query);-->
+    <select id="querryCount" parameterType="EmployeeQuery" resultType="long">
+        select count(*) from t_employee e
+        WHERE
+        e.dept_id IS NOT NULL
+        <include refid="whereSql"/>
+    </select>
+    <!--List<T> queryData(BaseQuery query);-->
+    <select id="queryData" parameterType="EmployeeQuery" resultMap="EmployeeMap">
+        SELECT
+        *
+        FROM
+        t_employee e
+        LEFT JOIN t_department d
+        ON
+        e.dept_id = d.id
+        WHERE
+        e.dept_id IS NOT NULL
+        AND
+        e.tenant_id = #{tenantID}
+      <include refid="whereSql"/>
+        limit #{start},#{pageSize}
+    </select>
+
+    <resultMap id="EmployeeMap" type="Employee">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="realName" column="realName"></result>
+        <result property="tel" column="tel"></result>
+        <result property="inputTime" column="inputTime"></result>
+        <result property="address" column="address"></result>
+        <result property="password" column="password"></result>
+
+        <association property="dept" column="dept_id" javaType="Department">
+            <id property="id" column="dept_id"></id>
+            <id property="name" column="name"></id>
+        </association>
+    </resultMap>
+
+
+</mapper>

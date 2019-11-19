@@ -1,0 +1,48 @@
+package com.xmh.crm.service.impl.systemMenu;
+
+import com.xmh.basic.service.impl.BaseServiceImpl;
+import com.xmh.crm.domain.systemMenu.SystemMenu;
+import com.xmh.crm.mapper.systemMenu.SystemMenuMapper;
+import com.xmh.crm.service.systemMenu.ISystemMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Stream;
+
+@Service
+public class SystemMenuServiceImpl extends BaseServiceImpl<SystemMenu> implements ISystemMenuService {
+
+    @Autowired
+    SystemMenuMapper systemMenuMapper;
+
+    @Override
+    public StringBuilder findAllByPermission() {
+        List<SystemMenu> list = systemMenuMapper.findAll();
+        HashSet<SystemMenu> children = new HashSet<>();
+        HashSet<SystemMenu> parent = new HashSet<>();
+        StringBuilder builder = new StringBuilder();
+        list.stream().filter(p -> p.getParent() != null).forEach(p->
+                children.add(p)
+        );
+
+        list.stream().filter(p -> p.getParent() == null).forEach(p->
+                parent.add(p)
+        );
+        builder.append("[{path: '/login',component:()=>import(`@/views/Login.vue`),name: '',hidden: true},{path: '/404',component:()=>import(`@/views/404`),name: '',hidden: true},{path: '/',component:()=>import(`@/views/Home.vue`),name: 'echarts',iconCls: 'fa fa-bar-chart',leaf:true,children: [{ path: '/echarts', component:()=>import(`@/views/charts/echarts.vue`), name: '首页' }]},");
+        for (SystemMenu s:parent) {
+            builder.append("{path: '").append(s.getSn()).append("',component:()=>import(`@/views/").append(s.getUrl()).append(".vue`),name: '").append(s.getName()).append("',iconCls: '").append(s.getIcon()).append("',children: [");
+            for (SystemMenu c:children) {
+                if(c.getParent().getName().equals(s.getName()))
+                    builder.append("{ path: '").append(c.getSn()).append("', component:()=>import(`@/views/nav1/").append(c.getUrl()).append(".vue`), name: '").append(c.getName()).append("',  },");
+            }
+            builder.append("]},");
+        }
+        builder.append("{path: '/',component:()=>import(`@/views/Home.vue`),name: '',iconCls: 'fa fa-address-card',leaf: true,children: [{ path: '/page6', component:()=>import(`@/views/nav3/Page6`), name: '导航三' }]},{path: '*',hidden: true,redirect: { path: '/404' }}]");
+        return builder;
+    }
+}

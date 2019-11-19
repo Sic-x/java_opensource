@@ -1,0 +1,6 @@
+package com.xmh.crm.query.role;
+
+import com.xmh.basic.query.BaseQuery;
+
+public class RoleQuery extends BaseQuery {
+}

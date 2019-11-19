@@ -1,0 +1,11 @@
+package com.xmh.crm.service.impl.setted;
+
+import com.xmh.basic.service.impl.BaseServiceImpl;
+import com.xmh.crm.domain.setted.Setted;
+import com.xmh.crm.service.setted.ISettedService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class SettedServiceImpl extends BaseServiceImpl<Setted> implements ISettedService {
+
+}

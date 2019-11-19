@@ -1,0 +1,9 @@
+package com.xmh.crm.mapper.repairOrderItem;
+
+import com.xmh.basic.mapper.BaseMapper;
+import com.xmh.crm.domain.repairOrderItem.RepairOrderItem;
+
+public interface RepairOrderItemMapper extends BaseMapper<RepairOrderItem> {
+
+
+}

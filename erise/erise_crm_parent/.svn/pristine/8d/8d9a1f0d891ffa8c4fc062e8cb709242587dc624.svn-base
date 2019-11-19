@@ -1,0 +1,9 @@
+package com.xmh.crm.service.role;
+
+
+import com.xmh.basic.service.BaseService;
+import com.xmh.crm.domain.role.Role;
+
+public interface IRoleService extends BaseService<Role> {
+
+}

@@ -1,0 +1,89 @@
+package com.xmh.crm.web.controller.opt;
+
+
+import com.xmh.crm.domain.opt.Opt;
+import com.xmh.crm.query.opt.OptQuery;
+import com.xmh.crm.service.opt.IOptService;
+import com.xmh.util.AjaxResult;
+import com.xmh.util.PageList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@Controller
+@RequestMapping("/opt")
+@CrossOrigin
+public class OptController {
+
+    @Autowired
+    private IOptService optService;
+
+    /**
+     *  restful 风格 -- http的风格（get/post）
+     *
+     *   put -- 新增
+     *   post -- 修改
+     *   delete -- 删除
+     *   get --查询
+     *   patch --查询
+     *
+     *  (1)查询所有
+     */
+
+    @RequestMapping(value = "/findAll",method = RequestMethod.PATCH)
+    @ResponseBody
+    public List<Opt> findAll(){
+        return optService.findAll();
+    }
+    /**
+     * 分页方法
+     * @param optQuery
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.PATCH)
+    @ResponseBody
+    @CrossOrigin
+    public PageList<Opt> query(@RequestBody OptQuery optQuery) {
+        return optService.query(optQuery);
+    }
+    //  get departement/12 查询一条
+    @RequestMapping(value = "{id}",method = RequestMethod.GET)
+    @ResponseBody
+    public Opt findOne(@PathVariable("id") Long id){
+        return optService.findOne(id);
+    }
+    //新增  {"id":1,"name":"xxxx"}
+    @RequestMapping(method = RequestMethod.PUT)
+    @ResponseBody
+    public AjaxResult saveOrUpdate(@RequestBody  Opt opt){
+        try {
+            if (opt.getId() != null){
+                optService.update(opt);
+            }else{
+                optService.save(opt);
+            }
+            return AjaxResult.me();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.me().setSuccess(false).setMessage("操作失败!"+e.getMessage());
+        }
+    }
+
+    /*//修改  {"id":1,"name":"xxxx"}
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResult update(@RequestBody Opt opt){
+        optService.update(opt);
+        return new AjaxResult();
+    }*/
+    //删除 {"id":1,"name":"xxxx"}
+    @RequestMapping(value = "{id}",method = RequestMethod.DELETE)
+    @ResponseBody
+    public AjaxResult remove(@PathVariable("id") Long id){
+        optService.remove(id);
+        return new AjaxResult();
+    }
+}
