@@ -1,0 +1,17 @@
+
+
+#多环境测试
+spring:
+  profiles:
+    active: pro #激活相应的环境
+
+---
+server:
+  port: 8081
+spring:
+  profiles: dev
+---
+server:
+  port: 8082
+spring:
+  profiles: pro
