@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hrm-basic-common" />
+        <module name="hrm-basic-generate-code" />
+        <module name="hrm-basic-utils" />
+        <module name="hrm-config-server-1030" />
+        <module name="hrm-eureka-server-1010" />
+        <module name="hrm-gateway-zuul-1020" />
+        <module name="hrm-systemmanage-common" />
+        <module name="hrm-systemmanage-service-2010" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="hrm-basic-common" target="1.8" />
+      <module name="hrm-basic-generate-code" target="1.8" />
+      <module name="hrm-basic-parent" target="1.8" />
+      <module name="hrm-basic-utils" target="1.8" />
+      <module name="hrm-config-server-1030" target="1.8" />
+      <module name="hrm-eureka-server-1010" target="1.8" />
+      <module name="hrm-gateway-zuul-1020" target="1.8" />
+      <module name="hrm-parent" target="1.8" />
+      <module name="hrm-support-parent" target="1.8" />
+      <module name="hrm-systemmanage-common" target="1.8" />
+      <module name="hrm-systemmanage-parent" target="1.8" />
+      <module name="hrm-systemmanage-service-2010" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

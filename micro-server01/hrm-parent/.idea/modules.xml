@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-common/hrm-basic-common.iml" filepath="$PROJECT_DIR$/hrm-basic-parent/hrm-basic-common/hrm-basic-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-generate-code/hrm-basic-generate-code.iml" filepath="$PROJECT_DIR$/hrm-basic-parent/hrm-basic-generate-code/hrm-basic-generate-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-parent.iml" filepath="$PROJECT_DIR$/hrm-basic-parent/hrm-basic-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-utils/hrm-basic-utils.iml" filepath="$PROJECT_DIR$/hrm-basic-parent/hrm-basic-utils/hrm-basic-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-support-parent/hrm-config-server-1030/hrm-config-server-1030.iml" filepath="$PROJECT_DIR$/hrm-support-parent/hrm-config-server-1030/hrm-config-server-1030.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-support-parent/hrm-eureka-server-1010/hrm-eureka-server-1010.iml" filepath="$PROJECT_DIR$/hrm-support-parent/hrm-eureka-server-1010/hrm-eureka-server-1010.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-support-parent/hrm-gateway-zuul-1020/hrm-gateway-zuul-1020.iml" filepath="$PROJECT_DIR$/hrm-support-parent/hrm-gateway-zuul-1020/hrm-gateway-zuul-1020.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-parent.iml" filepath="$PROJECT_DIR$/hrm-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-support-parent/hrm-support-parent.iml" filepath="$PROJECT_DIR$/hrm-support-parent/hrm-support-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-common/hrm-systemmanage-common.iml" filepath="$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-common/hrm-systemmanage-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-parent.iml" filepath="$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-service-2010/hrm-systemmanage-service-2010.iml" filepath="$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-service-2010/hrm-systemmanage-service-2010.iml" />
+    </modules>
+  </component>
+</project>
