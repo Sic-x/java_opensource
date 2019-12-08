@@ -1,0 +1,19 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://peer1:1000/eureka/,http://peer2:1001/eureka/ #注册中心地址
+  instance:
+    prefer-ip-address: true #使用ip注册到注册中心
+    instance-id:  zuul-server:5000 #注册到注册中心服务的id
+server:
+  port: 5000
+spring:
+  application:
+    name: zuul-server  #服务的名字很重要
+#配置zuul
+zuul:
+  ignoredServices: "*" #忽略(不准)服务名方式访问
+  prefix: "/xmh" #统一访问路径的前缀
+  routes:
+    pay-server: "/pays/**"   #user-server 这个服务使用 /user路径访问
+

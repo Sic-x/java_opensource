@@ -1,0 +1,29 @@
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://peer1:1000/eureka/,http://peer2:1001/eureka/ #注册中心地址
+#  instance:
+#    prefer-ip-address: true #使用ip注册到注册中心
+#    instance-id:  pay-server:4000 #注册到注册中心服务的id
+#server:
+#  port: 4000
+#spring:
+#  application:
+#    name: pay-server  #服务的名字很重要
+#
+#feign:
+#  hystrix:
+#      enabled: true #开启Hystrix支持
+#=======================================================================
+#指向配置中心
+spring:
+  cloud:
+    config:
+      uri: http://localhost:7000
+      name: application-pay  #我需要哪个配置文件
+      profile: dev    # application-pay-dev.yml
+      #label: master
+
+
+
+

@@ -1,0 +1,6 @@
+2019-11-26 19:33:45.619 ----> [http-nio-8080-exec-1] ---> INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring FrameworkServlet 'dispatcherServlet'
+2019-11-26 19:33:45.623 ----> [http-nio-8080-exec-1] ---> INFO  org.springframework.web.servlet.DispatcherServlet - FrameworkServlet 'dispatcherServlet': initialization started
+2019-11-26 19:33:45.666 ----> [http-nio-8080-exec-1] ---> INFO  org.springframework.web.servlet.DispatcherServlet - FrameworkServlet 'dispatcherServlet': initialization completed in 43 ms
+2019-11-26 19:33:45.686 ----> [http-nio-8080-exec-1] ---> INFO  com.xmh.springboot.web.interceptor.MyInterceptor - 假装是个拦截器
+2019-11-26 19:33:45.727 ----> [http-nio-8080-exec-1] ---> INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2019-11-26 19:33:45.860 ----> [http-nio-8080-exec-1] ---> INFO  c.x.springboot.web.controller.HelloWorldController - 13213213

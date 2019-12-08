@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/_2019-springcloud-parent.iml" filepath="$PROJECT_DIR$/_2019-springcloud-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/config-service-7000/config-service-7000.iml" filepath="$PROJECT_DIR$/config-service-7000/config-service-7000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-service-1000/eureka-service-1000.iml" filepath="$PROJECT_DIR$/eureka-service-1000/eureka-service-1000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka-service-1001/eureka-service-1001.iml" filepath="$PROJECT_DIR$/eureka-service-1001/eureka-service-1001.iml" />
+      <module fileurl="file://$PROJECT_DIR$/order-service-3000/order-service-3000.iml" filepath="$PROJECT_DIR$/order-service-3000/order-service-3000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pay-service-4000/pay-service-4000.iml" filepath="$PROJECT_DIR$/pay-service-4000/pay-service-4000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-common/user-common.iml" filepath="$PROJECT_DIR$/user-common/user-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-service-2000/user-service-2000.iml" filepath="$PROJECT_DIR$/user-service-2000/user-service-2000.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-service-2001/user-service-2001.iml" filepath="$PROJECT_DIR$/user-service-2001/user-service-2001.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul-server-5000/zuul-server-5000.iml" filepath="$PROJECT_DIR$/zuul-server-5000/zuul-server-5000.iml" />
+    </modules>
+  </component>
+</project>

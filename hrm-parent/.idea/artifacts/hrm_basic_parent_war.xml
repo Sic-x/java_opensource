@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hrm-basic-parent:war">
+    <output-path>$PROJECT_DIR$/hrm-basic-parent/target</output-path>
+    <root id="archive" name="hrm-basic-parent-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="hrm-basic-parent:war exploded" />
+    </root>
+  </artifact>
+</component>

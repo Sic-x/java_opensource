@@ -1,0 +1,19 @@
+server:
+  port: 7000
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: config-server:7000
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1000/eureka/
+      #注册中心的注册地址 ，其他微服务需要向这个地址注册
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:  #git远程仓库配置
+          uri: https://github.com/Sic-x/springcloud-config.git

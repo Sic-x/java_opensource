@@ -1,0 +1,8 @@
+#集成DataSource
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql:///2019_11_05_crm_ssm?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource

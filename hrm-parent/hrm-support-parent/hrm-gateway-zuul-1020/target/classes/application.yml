@@ -1,0 +1,20 @@
+server:
+  port: 1020
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: zuul-server:1020
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1010/eureka/
+      #注册中心的注册地址 ，其他微服务需要向这个地址注册
+spring:
+  application:
+    name: zuul-server
+#配置zuul
+zuul:
+  ignoredServices: "*" #忽略(不准)服务名方式访问
+  prefix: "/hrm" #统一访问路径的前缀
+  routes:
+    system-server: "/sys/**"   #systemmanage-server 这个服务使用 /systemmanage路径访问

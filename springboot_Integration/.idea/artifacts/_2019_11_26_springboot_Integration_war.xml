@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="_2019_11_26_springboot_Integration:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Integration.war">
+      <element id="artifact" artifact-name="_2019_11_26_springboot_Integration:war exploded" />
+    </root>
+  </artifact>
+</component>

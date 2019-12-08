@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-basic-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-generate-code" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-basic-parent/hrm-basic-utils" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-config-server-1030" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-eureka-server-1010" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-support-parent/hrm-gateway-zuul-1020" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-systemmanage-parent" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hrm-systemmanage-parent/hrm-systemmanage-service-2010" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
